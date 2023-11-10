@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>ei8.Cortex.Chat.Port.Adapter.IO.Process.Services</AssemblyName>
+    <RootNamespace>ei8.Cortex.Chat.Port.Adapter.IO.Process.Services</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdentityServer4" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="Neurul.Common" Version="0.1.19" />
+    <PackageReference Include="neurUL.Common.Http" Version="0.1.15" />
+    <PackageReference Include="Neurul.Cortex.Common" Version="0.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="NLog" Version="4.5.0" />
+    <PackageReference Include="PCLCrypto" Version="2.1.32-alpha" />
+    <PackageReference Include="Polly" Version="5.6.1" />
+    <PackageReference Include="Splat" Version="9.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Application\Application.csproj" />
+    <ProjectReference Include="..\..\..\..\Domain.Model\Domain.Model.csproj" />
+    <ProjectReference Include="..\..\..\Common\Common.csproj" />
+  </ItemGroup>
+
+</Project>
