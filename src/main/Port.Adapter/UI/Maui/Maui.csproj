@@ -34,7 +34,7 @@
 	
 	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
         <AndroidKeyStore>True</AndroidKeyStore>
-        <AndroidSigningKeyStore>C:\android keys\ei8.Cortex.Gps.Sender\myapp.keystore</AndroidSigningKeyStore>
+        <AndroidSigningKeyStore>C:\android keys\ei8.Cortex.Chat\myapp.keystore</AndroidSigningKeyStore>
         <AndroidSigningKeyAlias>key</AndroidSigningKeyAlias>
     </PropertyGroup>
 	
