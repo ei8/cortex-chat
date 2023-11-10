@@ -12,8 +12,8 @@
         <ApplicationTitle>Chat</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>ei8.Cortex.Gps.Sender</ApplicationId>
-        <ApplicationIdGuid>490794b1-cc50-4047-b883-84e278c5dc95</ApplicationIdGuid>
+        <ApplicationId>ei8.Cortex.Chat</ApplicationId>
+        <ApplicationIdGuid>70ee4800-cc64-4607-9667-eb51e0f6331d</ApplicationIdGuid>
 
         <!-- Versions -->
         <ApplicationDisplayVersion>1.1</ApplicationDisplayVersion>
@@ -29,6 +29,7 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>
+      <ApplicationId>ei8.Cortex.Chat</ApplicationId>
     </PropertyGroup>
 	
 	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
@@ -36,6 +37,18 @@
         <AndroidSigningKeyStore>C:\android keys\ei8.Cortex.Gps.Sender\myapp.keystore</AndroidSigningKeyStore>
         <AndroidSigningKeyAlias>key</AndroidSigningKeyAlias>
     </PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
+	  <ApplicationId>ei8.Cortex.Chat</ApplicationId>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
+	  <ApplicationId>ei8.Cortex.Chat</ApplicationId>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
+	  <ApplicationId>ei8.Cortex.Chat</ApplicationId>
+	</PropertyGroup>
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
