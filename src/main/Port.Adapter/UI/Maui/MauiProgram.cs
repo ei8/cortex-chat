@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui;
-using ei8.Cortex.Diary.Nucleus.Client.In;
 using ei8.Cortex.Chat.Port.Adapter.UI.Maui.Services;
 using ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels;
 using ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels.Auth;
@@ -10,6 +9,7 @@ using ei8.Cortex.Chat.Port.Adapter.IO.Process.Services;
 using ei8.Cortex.Chat.Domain.Model;
 using ei8.Cortex.Chat.Application.Settings;
 using ei8.Cortex.Chat.Application.Identity;
+using ei8.Cortex.Chat.Nucleus.Client.In;
 
 namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui;
 
@@ -33,8 +33,7 @@ public static class MauiProgram
             rp.SetHttpClientHandler(new HttpClientHandler());
             return rp;
         });
-        builder.Services.AddSingleton<INeuronClient, HttpNeuronClient>();
-        builder.Services.AddSingleton<ITerminalClient, HttpTerminalClient>();
+        builder.Services.AddSingleton<IMessageClient, HttpMessageClient>();
 
         builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
         builder.Services.AddSingleton<ILocationService, LocationService>();

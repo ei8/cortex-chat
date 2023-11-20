@@ -5,18 +5,10 @@
              x:Class="ei8.Cortex.Chat.Port.Adapter.UI.Maui.Views.MainPage"
              x:DataType="viewModels:MainViewModel">
     <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,*">
-        <Button HorizontalOptions="Center"
-                    Command="{Binding CallApiCommand}"
-                    BackgroundColor="{StaticResource Secondary}"
-                    IsEnabled="{Binding IsNotBusy}"
-                    Text="Call API" TextColor="{StaticResource Primary}"/>
         <Button Grid.Row="1" HorizontalOptions="Center"
                     Command="{Binding LogoutCommand}"
                     BackgroundColor="{StaticResource Secondary}"
                     Text="Logout" TextColor="{StaticResource Primary}"/>
-        <Button Grid.Row="2" Text="{Binding LocationUpdatesEnabled, 
-                Converter={StaticResource LocationButtonTextConverter}}"
-                Command="{Binding ChangeLocationUpdatesCommand}"/>
         <Button Grid.Row="3" Text="Upload Last Location"
                 Command="{Binding UploadLastLocationCommand}"/>
         <CollectionView ItemsSource="{Binding Updates}"

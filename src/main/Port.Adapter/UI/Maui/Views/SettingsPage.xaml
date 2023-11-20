@@ -13,10 +13,6 @@
         <Entry Grid.Row="4" Placeholder="Enter Client Secret"
                 Text="{Binding ClientSecret}" />
 
-        <Label Margin="10,20,10,20" 
-                HorizontalOptions="Center" TextColor="{StaticResource Primary}" 
-                       FontSize="20" Text="Instantiates GPS Neuron Id"/>
-       
         <Button Margin="100,20,100,20" 
                     Command="{Binding SaveCommand}"
                     IsEnabled="{Binding IsNotBusy}"

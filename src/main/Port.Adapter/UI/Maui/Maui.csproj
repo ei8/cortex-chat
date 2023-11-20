@@ -68,7 +68,6 @@
       <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.0.0" />
       <PackageReference Include="CommunityToolkit.Maui" Version="1.2.0" />
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
-      <PackageReference Include="ei8.Cortex.Diary.Nucleus.Client" Version="0.2.4" />
       <PackageReference Include="IdentityModel.OidcClient" Version="5.2.1" />
       <PackageReference Include="neurUL.Common.Http" Version="0.1.15" />
     </ItemGroup>
@@ -84,6 +83,7 @@
       <Folder Include="Services\iOS\" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\..\..\cortex-chat-nucleus-client\src\main\Client.csproj" />
       <ProjectReference Include="..\..\..\Application\Application.csproj" />
       <ProjectReference Include="..\..\..\Domain.Model\Domain.Model.csproj" />
       <ProjectReference Include="..\..\IO\Process\Services\Services.csproj" />
