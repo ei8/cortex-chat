@@ -12,46 +12,74 @@
         TrueObject="Stop Location Updates"
         FalseObject="Start Location Updates"/>
 
-    <DataTemplate x:Key="LocationTemplate"
-                  x:DataType="models:LocationModel">
-        <Grid RowDefinitions="*,*,*,auto"
-              ColumnDefinitions="*,auto">
-
-            <Label Text="Latitude"/>
-            <Label Text="{Binding Latitude, StringFormat='{0:F4}'}"
-                   Grid.Column="1"/>
-
-            <Label Text="Longitude"
-                   Grid.Row="1"/>
-            <Label Text="{Binding Longitude, StringFormat='{0:F4}'}"
-                   Grid.Column="1"
-                   Grid.Row="1"/>
-
-            <Label Text="Bearing"
-                   Grid.Row="2"/>
-            <Label Text="{Binding Bearing, StringFormat='{0:F4}'}"
-                   Grid.Column="1"
-                   Grid.Row="2"/>
-
-            <BoxView Grid.Row="3"
-                     Grid.ColumnSpan="2"
-                     BackgroundColor="{StaticResource Primary}"
-                     HeightRequest="2"/>
-
-        </Grid>
+    <DataTemplate x:Key="MessageTemplate"
+                  x:DataType="models:Message">
+        <ContentView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Ellipse Stroke="White" 
+                                        WidthRequest="35"
+                                        HeightRequest="35"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Start"
+                                        Fill="Gray"
+                                        StrokeThickness="1"
+                                        Margin="10,10,0,0"/>
+                <Border Grid.Column="1" BackgroundColor="LightSkyBlue" Margin="5,10,0,0" Padding="10,8">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="0,14,14,14"/>
+                    </Border.StrokeShape>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Text="{Binding Sender}" FontAttributes="Bold"/>
+                        <Label Grid.Row="1" Text="{Binding Content}" VerticalOptions="End" MaximumWidthRequest="250" />
+                    </Grid>
+                </Border>
+            </Grid>
+        </ContentView>
     </DataTemplate>
 
-    <DataTemplate x:Key="StatusTemplate"
-                  x:DataType="x:String">
-       <Label Text="{Binding .}"
+    <DataTemplate x:Key="SameSenderMessageTemplate"
+                  x:DataType="models:Message">
+        <ContentView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Border BackgroundColor="LightSkyBlue" Margin="50,0,0,0" Padding="10,8">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="0,14,14,14"/>
+                    </Border.StrokeShape>
+                    <Label Text="{Binding Content}" VerticalOptions="End" MaximumWidthRequest="250" />
+                </Border>
+            </Grid>
+        </ContentView>
+    </DataTemplate>
+
+    <DataTemplate x:Key="StatusTemplate" x:DataType="x:String">
+        <Label Text="{Binding .}"
               FontAttributes="Bold"
               FontSize="Large"
               TextColor="{StaticResource Tertiary}"/>
     </DataTemplate>
 
-    <templateselectors:LocationUpdatesTemplateSelector
-        x:Key="LocationUpdatesTemplateSelector"
-        LocationTemplate="{StaticResource LocationTemplate}"
+    <templateselectors:MessagesTemplateSelector
+        x:Key="MessagesTemplateSelector"
+        MessageTemplate="{StaticResource MessageTemplate}"
+        SameSenderMessageTemplate="{StaticResource SameSenderMessageTemplate}"
         StatusTemplate="{StaticResource StatusTemplate}"/>
 
 </ResourceDictionary>

@@ -10,6 +10,7 @@ using ei8.Cortex.Chat.Domain.Model;
 using ei8.Cortex.Chat.Application.Settings;
 using ei8.Cortex.Chat.Application.Identity;
 using ei8.Cortex.Chat.Nucleus.Client.In;
+using ei8.Cortex.Chat.Nucleus.Client.Out;
 
 namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui;
 
@@ -34,9 +35,9 @@ public static class MauiProgram
             return rp;
         });
         builder.Services.AddSingleton<IMessageClient, HttpMessageClient>();
+        builder.Services.AddSingleton<IMessageQueryClient, HttpMessageQueryClient>();
 
         builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
-        builder.Services.AddSingleton<ILocationService, LocationService>();
         builder.Services.AddSingleton<IUrlService, UrlService>();
         builder.Services.AddSingleton<ITokenProviderService, TokenProviderService>();
         builder.Services.AddSingleton<ISettingsService, SettingsService>();

@@ -4,17 +4,27 @@
              xmlns:viewModels="clr-namespace:ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels"
              x:Class="ei8.Cortex.Chat.Port.Adapter.UI.Maui.Views.MainPage"
              x:DataType="viewModels:MainViewModel">
-    <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,*">
-        <Button Grid.Row="1" HorizontalOptions="Center"
+    <Grid RowDefinitions="50,*,auto">
+        <ImageButton HorizontalOptions="End"
                     Command="{Binding LogoutCommand}"
-                    BackgroundColor="{StaticResource Secondary}"
-                    Text="Logout" TextColor="{StaticResource Primary}"/>
-        <Button Grid.Row="3" Text="Upload Last Location"
-                Command="{Binding UploadLastLocationCommand}"/>
-        <CollectionView ItemsSource="{Binding Updates}"
-                        Grid.Row="4"
-                        VerticalScrollBarVisibility="Always"
-                        ItemTemplate="{StaticResource LocationUpdatesTemplateSelector}"/>
-    
+                    Source="images/logout.svg"
+                    WidthRequest="30"
+                    HeightRequest="30"
+                    Margin="0,0,5,0"
+                     />
+        <RefreshView Grid.Row="1" IsRefreshing="{Binding IsReloading}" Command="{Binding ReloadCommand}">
+            <CollectionView ItemsSource="{Binding Messages}"
+                            BackgroundColor="GhostWhite"
+                            VerticalScrollBarVisibility="Always"
+                            ItemTemplate="{StaticResource MessagesTemplateSelector}"/>
+        </RefreshView>
+        <Grid Grid.Row="2" ColumnDefinitions="*,auto" Padding="5,0,0,0">
+            <Editor                  
+                  MaxLength="500"
+                  Style="{StaticResource CommonEditorStyle}"
+                  Text="{Binding Content}"
+                  AutoSize="TextChanges" />
+            <ImageButton Grid.Column="1" Source="images/send.svg" HeightRequest="40" WidthRequest="40" Margin="5" VerticalOptions="End"  Command="{Binding SendCommand}"/>
+        </Grid>
     </Grid>
 </ContentPage>

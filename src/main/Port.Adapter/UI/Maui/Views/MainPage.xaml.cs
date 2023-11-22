@@ -8,10 +8,11 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
         BindingContext = mainViewModel;
+
+        this.Loaded += MainPage_Loaded;
     }
-
-    private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+    private async void MainPage_Loaded(object sender, EventArgs e)
     {
-
+        await ((MainViewModel)this.BindingContext).ReloadAsync();
     }
 }

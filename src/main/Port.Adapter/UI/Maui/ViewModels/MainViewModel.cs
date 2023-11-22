@@ -4,6 +4,7 @@ using ei8.Cortex.Chat.Application.Identity;
 using ei8.Cortex.Chat.Application.Settings;
 using ei8.Cortex.Chat.Domain.Model;
 using ei8.Cortex.Chat.Nucleus.Client.In;
+using ei8.Cortex.Chat.Nucleus.Client.Out;
 using IdentityModel.Client;
 using IdentityModel.OidcClient;
 using System.Collections.ObjectModel;
@@ -16,48 +17,100 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
         private readonly ISettingsService settingsService;
         private readonly IUrlService urlService;
         private readonly IMessageClient messageClient;
+        private readonly IMessageQueryClient messageQueryClient;
         protected readonly IOidcClientService oidcClientService;
-        protected readonly HttpClient httpClient;
         protected IConnectivity connectivity;
         private readonly ITokenProviderService tokenProviderService;
 
         [ObservableProperty]
-        private bool locationUpdatesEnabled;
+        private string content;
 
-        public MainViewModel(ISettingsService settingsService, IUrlService urlService, IMessageClient messageClient, IOidcClientService oidcClientService, HttpClient httpclient, IConnectivity connectivity, ITokenProviderService tokenProviderService)
+        [ObservableProperty]
+        private bool isReloading;
+
+        public MainViewModel(ISettingsService settingsService, IUrlService urlService, IMessageClient messageClient, IMessageQueryClient messageQueryClient,  IOidcClientService oidcClientService, IConnectivity connectivity, ITokenProviderService tokenProviderService)
         {
             this.settingsService = settingsService;
             this.urlService = urlService;
             this.oidcClientService = oidcClientService;
-            this.httpClient = httpclient;
             this.connectivity = connectivity;
-            Updates = new();
+            this.Messages = new();
             this.messageClient = messageClient;
+            this.messageQueryClient = messageQueryClient;
             this.tokenProviderService = tokenProviderService;
         }
 
-        public ObservableCollection<object> Updates { get; }
-        
+        public ObservableCollection<object> Messages { get; }
+
         [RelayCommand]
-        public async Task UploadLastLocationAsync()
+        public async Task ReloadAsync()
+        {
+            try
+            {
+                if (this.connectivity.NetworkAccess is not NetworkAccess.Internet)
+                {
+                    await Shell.Current.DisplayAlert("Internet Offline", "Check your internet and try again", "Ok");
+                }
+                else
+                {
+                    this.IsReloading = true;
+
+                    var messageData = await this.messageQueryClient.GetMessagesAsync(
+                        this.urlService.AvatarUrl + "/",
+                        this.tokenProviderService.AccessToken
+                        );
+
+                    this.Messages.Clear();
+
+                    messageData.Select(md => new Message()
+                    {
+                        Id = md.Id,
+                        Content = md.Content,
+                        Region = md.Region,
+                        RegionId = md.RegionId,
+                        Sender = md.Sender,
+                        SenderId = md.SenderId,
+                        CreationTimestamp = md.CreationTimestamp,
+                        LastModificationTimestamp = md.LastModificationTimestamp
+                    }).ToList().ForEach(m => this.Messages.Add(m));
+
+                    this.IsReloading = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", ex.ToString(), "Ok");
+            }
+        }
+
+        [RelayCommand]
+        public async Task SendAsync()
         {
             var neuronId = Guid.NewGuid().ToString();
             string regionId = null;
             try
             {
-                var task = Task.Run(async () => await this.messageClient.CreateMessage(
-                    this.urlService.AvatarUrl + "/",
-                    neuronId.ToString(),
-                    "Hello world!!!",
-                    regionId,
-                    this.tokenProviderService.AccessToken
-                    ));
-                task.GetAwaiter().GetResult();
+                if (this.connectivity.NetworkAccess is not NetworkAccess.Internet)
+                {
+                    await Shell.Current.DisplayAlert("Internet Offline", "Check your internet and try again", "Ok");
+                }
+                else
+                {
+                    await this.messageClient.CreateMessage(
+                        this.urlService.AvatarUrl + "/",
+                        neuronId.ToString(),
+                        this.Content,
+                        regionId,
+                        this.tokenProviderService.AccessToken
+                        );
+
+                    this.Content = string.Empty;
+                }
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("Error", ex.ToString(), "Ok");
-                }
+            }
         }
 
         [RelayCommand]
