@@ -32,7 +32,7 @@
                                         Fill="Gray"
                                         StrokeThickness="1"
                                         Margin="10,10,0,0"/>
-                <Border Grid.Column="1" BackgroundColor="LightSkyBlue" Margin="5,10,0,0" Padding="10,8">
+                <Border Grid.Column="1" BackgroundColor="LightGrey" Margin="5,10,0,0" Padding="10,8">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="0,14,14,14"/>
                     </Border.StrokeShape>
@@ -59,9 +59,29 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Border BackgroundColor="LightSkyBlue" Margin="50,0,0,0" Padding="10,8">
+                <Border BackgroundColor="LightGray" Margin="50,0,0,0" Padding="10,8">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="0,14,14,14"/>
+                    </Border.StrokeShape>
+                    <Label Text="{Binding Content}" VerticalOptions="End" MaximumWidthRequest="250" />
+                </Border>
+            </Grid>
+        </ContentView>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CurrentUserMessageTemplate"
+                  x:DataType="models:Message">
+        <ContentView>
+            <Grid HorizontalOptions="End">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Border BackgroundColor="LightSkyBlue" Margin="50,0,5,0" Padding="10,8">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="14,0,14,14"/>
                     </Border.StrokeShape>
                     <Label Text="{Binding Content}" VerticalOptions="End" MaximumWidthRequest="250" />
                 </Border>
@@ -80,6 +100,7 @@
         x:Key="MessagesTemplateSelector"
         MessageTemplate="{StaticResource MessageTemplate}"
         SameSenderMessageTemplate="{StaticResource SameSenderMessageTemplate}"
+        CurrentUserMessageTemplate="{StaticResource CurrentUserMessageTemplate}"
         StatusTemplate="{StaticResource StatusTemplate}"/>
 
 </ResourceDictionary>

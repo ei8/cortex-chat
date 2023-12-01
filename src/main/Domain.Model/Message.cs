@@ -18,5 +18,7 @@ public record Message()
 
     public DateTimeOffset? CreationTimestamp { get; set; }
 
-    public DateTimeOffset? LastModificationTimestamp { get; set; }
+    public DateTimeOffset? UnifiedLastModificationTimestamp { get; set; }
+
+    public bool IsCurrentUserCreationAuthor { get; set; }
 }

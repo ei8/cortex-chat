@@ -13,6 +13,6 @@ public partial class MainPage : ContentPage
     }
     private async void MainPage_Loaded(object sender, EventArgs e)
     {
-        await ((MainViewModel)this.BindingContext).ReloadAsync();
+        ((MainViewModel)this.BindingContext).IsReloading = true;
     }
 }

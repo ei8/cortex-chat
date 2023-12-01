@@ -6,24 +6,29 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.TemplateSelectors
     {
         public DataTemplate MessageTemplate { get; set; }
         public DataTemplate SameSenderMessageTemplate { get; set; }
+        public DataTemplate CurrentUserMessageTemplate { get; set; }
         public DataTemplate StatusTemplate { get; set; }
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
             var itemsList = new List<Message>(((Microsoft.Maui.Controls.CollectionView)container).ItemsSource.Cast<Message>());
-            var currIndex = itemsList.IndexOf((Message) item);
+            var message = (Message)item;
+            var currIndex = itemsList.IndexOf(message);
             var sameMessageSender = false;
             if (currIndex > 0) 
             {
                 var precedingItem = (Message) itemsList[currIndex - 1];
-                if (precedingItem.SenderId == ((Message) item).SenderId) 
+                if (precedingItem.SenderId == message.SenderId) 
                     sameMessageSender = true;
             }
             return item is Message ? 
-                (
-                    !sameMessageSender ? 
-                        MessageTemplate : 
-                        SameSenderMessageTemplate
+                ( message.IsCurrentUserCreationAuthor ?
+                    this.CurrentUserMessageTemplate :
+                    (
+                        !sameMessageSender ? 
+                            MessageTemplate : 
+                            SameSenderMessageTemplate
+                    )
                 ) :
                 StatusTemplate;
         }

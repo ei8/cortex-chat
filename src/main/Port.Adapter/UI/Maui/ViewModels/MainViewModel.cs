@@ -1,12 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ei8.Cortex.Chat.Application.Identity;
+using ei8.Cortex.Chat.Application.Messages;
 using ei8.Cortex.Chat.Application.Settings;
 using ei8.Cortex.Chat.Domain.Model;
 using ei8.Cortex.Chat.Nucleus.Client.In;
 using ei8.Cortex.Chat.Nucleus.Client.Out;
 using IdentityModel.Client;
 using IdentityModel.OidcClient;
+using Microsoft.AspNetCore.Razor.Hosting;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 
@@ -14,13 +16,10 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
 {
     public partial class MainViewModel : ViewModelBase
     {
-        private readonly ISettingsService settingsService;
-        private readonly IUrlService urlService;
-        private readonly IMessageClient messageClient;
-        private readonly IMessageQueryClient messageQueryClient;
+        private readonly IMessageApplicationService messageApplicationService;
+        private readonly IMessageQueryService messageQueryService;
         protected readonly IOidcClientService oidcClientService;
         protected IConnectivity connectivity;
-        private readonly ITokenProviderService tokenProviderService;
 
         [ObservableProperty]
         private string content;
@@ -28,16 +27,13 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
         [ObservableProperty]
         private bool isReloading;
 
-        public MainViewModel(ISettingsService settingsService, IUrlService urlService, IMessageClient messageClient, IMessageQueryClient messageQueryClient,  IOidcClientService oidcClientService, IConnectivity connectivity, ITokenProviderService tokenProviderService)
+        public MainViewModel(IMessageApplicationService messageApplicationService, IMessageQueryService messageQueryService, IOidcClientService oidcClientService, IConnectivity connectivity)
         {
-            this.settingsService = settingsService;
-            this.urlService = urlService;
             this.oidcClientService = oidcClientService;
             this.connectivity = connectivity;
+            this.messageApplicationService = messageApplicationService;
+            this.messageQueryService = messageQueryService;
             this.Messages = new();
-            this.messageClient = messageClient;
-            this.messageQueryClient = messageQueryClient;
-            this.tokenProviderService = tokenProviderService;
         }
 
         public ObservableCollection<object> Messages { get; }
@@ -53,26 +49,10 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
                 }
                 else
                 {
-                    this.IsReloading = true;
-
-                    var messageData = await this.messageQueryClient.GetMessagesAsync(
-                        this.urlService.AvatarUrl + "/",
-                        this.tokenProviderService.AccessToken
-                        );
-
                     this.Messages.Clear();
 
-                    messageData.Select(md => new Message()
-                    {
-                        Id = md.Id,
-                        Content = md.Content,
-                        Region = md.Region,
-                        RegionId = md.RegionId,
-                        Sender = md.Sender,
-                        SenderId = md.SenderId,
-                        CreationTimestamp = md.CreationTimestamp,
-                        LastModificationTimestamp = md.LastModificationTimestamp
-                    }).ToList().ForEach(m => this.Messages.Add(m));
+                    var messages = await this.messageQueryService.GetMessagesAsync();
+                    messages.ToList().ForEach(m => this.Messages.Add(m));
 
                     this.IsReloading = false;
                 }
@@ -86,8 +66,6 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
         [RelayCommand]
         public async Task SendAsync()
         {
-            var neuronId = Guid.NewGuid().ToString();
-            string regionId = null;
             try
             {
                 if (this.connectivity.NetworkAccess is not NetworkAccess.Internet)
@@ -96,13 +74,10 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
                 }
                 else
                 {
-                    await this.messageClient.CreateMessage(
-                        this.urlService.AvatarUrl + "/",
-                        neuronId.ToString(),
+                    await this.messageApplicationService.SendMessageAsync(
                         this.Content,
-                        regionId,
-                        this.tokenProviderService.AccessToken
-                        );
+                        null
+                    );
 
                     this.Content = string.Empty;
                 }

@@ -11,6 +11,7 @@ using ei8.Cortex.Chat.Application.Settings;
 using ei8.Cortex.Chat.Application.Identity;
 using ei8.Cortex.Chat.Nucleus.Client.In;
 using ei8.Cortex.Chat.Nucleus.Client.Out;
+using ei8.Cortex.Chat.Application.Messages;
 
 namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui;
 
@@ -37,10 +38,12 @@ public static class MauiProgram
         builder.Services.AddSingleton<IMessageClient, HttpMessageClient>();
         builder.Services.AddSingleton<IMessageQueryClient, HttpMessageQueryClient>();
 
-        builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
+        builder.Services.AddSingleton(Connectivity.Current);
         builder.Services.AddSingleton<IUrlService, UrlService>();
         builder.Services.AddSingleton<ITokenProviderService, TokenProviderService>();
         builder.Services.AddSingleton<ISettingsService, SettingsService>();
+        builder.Services.AddSingleton<IMessageApplicationService, MessageApplicationService>();
+        builder.Services.AddSingleton<IMessageQueryService, MessageQueryService>();
         builder.Services.AddSingleton<LoginViewModel>();
         builder.Services.AddSingleton<SettingsViewModel>();
         builder.Services.AddSingleton<MainViewModel>();

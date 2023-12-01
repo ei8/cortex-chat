@@ -8,7 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="DynamicData" Version="6.13.9" />
-    <PackageReference Include="ei8.Cortex.Library.Client" Version="0.3.0" />
+    <PackageReference Include="ei8.Cortex.Chat.Common" Version="0.1.8" />
+    <PackageReference Include="ei8.Cortex.Library.Client" Version="0.3.1" />
     <PackageReference Include="ei8.Cortex.Library.Common" Version="0.3.0" />
     <PackageReference Include="ei8.Cortex.Subscriptions.Common" Version="0.1.5" />
     <PackageReference Include="IdentityModel.OidcClient" Version="5.2.1" />
@@ -18,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\cortex-chat-nucleus-client\src\main\Client.csproj" />
     <ProjectReference Include="..\Domain.Model\Domain.Model.csproj" />
   </ItemGroup>
 
