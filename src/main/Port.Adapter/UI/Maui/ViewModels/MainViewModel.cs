@@ -2,15 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using ei8.Cortex.Chat.Application.Identity;
 using ei8.Cortex.Chat.Application.Messages;
-using ei8.Cortex.Chat.Application.Settings;
-using ei8.Cortex.Chat.Domain.Model;
-using ei8.Cortex.Chat.Nucleus.Client.In;
-using ei8.Cortex.Chat.Nucleus.Client.Out;
-using IdentityModel.Client;
 using IdentityModel.OidcClient;
-using Microsoft.AspNetCore.Razor.Hosting;
 using System.Collections.ObjectModel;
-using System.Text.Json;
 
 namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
 {

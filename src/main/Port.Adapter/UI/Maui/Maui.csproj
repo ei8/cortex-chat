@@ -16,9 +16,10 @@
         <ApplicationIdGuid>70ee4800-cc64-4607-9667-eb51e0f6331d</ApplicationIdGuid>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>1.1</ApplicationDisplayVersion>
-        <ApplicationVersion>2</ApplicationVersion>
+        <ApplicationDisplayVersion>1.2</ApplicationDisplayVersion>
+        <ApplicationVersion>3</ApplicationVersion>
 
+		<TargetPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">33</TargetPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">33.0</SupportedOSPlatformVersion>
@@ -34,8 +35,11 @@
 	
 	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
         <AndroidKeyStore>True</AndroidKeyStore>
-        <AndroidSigningKeyStore>C:\android keys\ei8.Cortex.Chat\myapp.keystore</AndroidSigningKeyStore>
+        <AndroidSigningKeyStore>N:\myapp.keystore</AndroidSigningKeyStore>
         <AndroidSigningKeyAlias>key</AndroidSigningKeyAlias>
+		<AndroidPackageFormats>aab</AndroidPackageFormats>
+		<AndroidSigningKeyPass>file:N:\AndroidSigningPassword.txt</AndroidSigningKeyPass>
+		<AndroidSigningStorePass>file:N:\AndroidSigningPassword.txt</AndroidSigningStorePass>
     </PropertyGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
@@ -82,7 +86,6 @@
       <Folder Include="Services\iOS\" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\..\..\..\..\..\cortex-chat-nucleus-client\src\main\Client.csproj" />
       <ProjectReference Include="..\..\..\Application\Application.csproj" />
       <ProjectReference Include="..\..\..\Domain.Model\Domain.Model.csproj" />
       <ProjectReference Include="..\..\IO\Process\Services\Services.csproj" />

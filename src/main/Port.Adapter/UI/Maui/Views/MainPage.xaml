@@ -21,7 +21,6 @@
         <Grid Grid.Row="2" ColumnDefinitions="*,auto" Padding="5,0,0,0">
             <Editor                  
                   MaxLength="500"
-                  Style="{StaticResource CommonEditorStyle}"
                   Text="{Binding Content}"
                   AutoSize="TextChanges" />
             <ImageButton Grid.Column="1" Source="images/send.svg" HeightRequest="40" WidthRequest="40" Margin="5" VerticalOptions="End"  Command="{Binding SendCommand}"/>
