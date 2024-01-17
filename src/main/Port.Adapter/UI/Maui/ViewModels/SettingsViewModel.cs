@@ -21,12 +21,24 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
         }
 
         [ObservableProperty]
+        private string authority;
+
+        [ObservableProperty]
+        private string clientId;
+
+        [ObservableProperty]
         private string clientSecret;
+
+        [ObservableProperty]
+        private string requestedScopes;
 
         [RelayCommand]
         public async Task SaveAsync()
         {
+            this.settingsService.Authority = this.Authority;
+            this.settingsService.ClientId = this.ClientId;
             this.settingsService.ClientSecret = this.ClientSecret;
+            this.settingsService.RequestedScopes = this.RequestedScopes;
 
             await Shell.Current.GoToAsync("..", true);
         }

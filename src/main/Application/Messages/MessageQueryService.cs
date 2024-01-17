@@ -1,4 +1,5 @@
-﻿using ei8.Cortex.Chat.Domain.Model;
+﻿using ei8.Cortex.Chat.Application.Identity;
+using ei8.Cortex.Chat.Domain.Model;
 using ei8.Cortex.Chat.Nucleus.Client.Out;
 using neurUL.Common.Domain.Model;
 using System;
@@ -11,25 +12,22 @@ namespace ei8.Cortex.Chat.Application.Messages
 {
     public class MessageQueryService : IMessageQueryService
     {
-        private readonly IUrlService urlService;
         private readonly IMessageQueryClient messageQueryClient;
         private readonly ITokenProviderService tokenProviderService;
 
-        public MessageQueryService(IUrlService urlService, IMessageQueryClient messageQueryClient, ITokenProviderService tokenProviderService)
+        public MessageQueryService(IMessageQueryClient messageQueryClient, ITokenProviderService tokenProviderService)
         {
-            AssertionConcern.AssertArgumentNotNull(urlService, nameof(urlService));
             AssertionConcern.AssertArgumentNotNull(messageQueryClient, nameof(messageQueryClient));
             AssertionConcern.AssertArgumentNotNull(tokenProviderService, nameof(tokenProviderService));
 
-            this.urlService = urlService;
             this.messageQueryClient = messageQueryClient;
             this.tokenProviderService = tokenProviderService;
         }
 
-        public async Task<IEnumerable<Message>> GetMessagesAsync(DateTimeOffset? maxTimestamp = null, int? pageSize = null, CancellationToken token = default)
+        public async Task<IEnumerable<Message>> GetMessagesAsync(string avatarUrl, DateTimeOffset? maxTimestamp = null, int? pageSize = null, CancellationToken token = default)
         {
             var messageData = await this.messageQueryClient.GetMessagesAsync(
-                        this.urlService.AvatarUrl + "/",
+                        avatarUrl,
                         this.tokenProviderService.AccessToken
                         );
 

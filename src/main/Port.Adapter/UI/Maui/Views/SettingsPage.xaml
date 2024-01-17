@@ -8,10 +8,31 @@
     <VerticalStackLayout>
         <Label Margin="10,20,10,20" 
                 HorizontalOptions="Center" TextColor="{StaticResource Primary}" 
+                       FontSize="20" Text="Authority"/>
+
+        <Entry Grid.Row="4" Placeholder="Enter Authority"
+                Text="{Binding Authority}" />
+        
+        <Label Margin="10,20,10,20" 
+                HorizontalOptions="Center" TextColor="{StaticResource Primary}" 
+                       FontSize="20" Text="Client ID"/>
+
+        <Entry Grid.Row="4" Placeholder="Enter Client ID"
+                Text="{Binding ClientId}" />
+
+        <Label Margin="10,20,10,20" 
+                HorizontalOptions="Center" TextColor="{StaticResource Primary}" 
                        FontSize="20" Text="Client Secret"/>
 
         <Entry Grid.Row="4" Placeholder="Enter Client Secret"
                 Text="{Binding ClientSecret}" />
+
+        <Label Margin="10,20,10,20" 
+                HorizontalOptions="Center" TextColor="{StaticResource Primary}" 
+                       FontSize="20" Text="Requested Scopes"/>
+
+        <Entry Grid.Row="4" Placeholder="Enter Requested Scopes"
+                Text="{Binding RequestedScopes}" />
 
         <Button Margin="100,20,100,20" 
                     Command="{Binding SaveCommand}"

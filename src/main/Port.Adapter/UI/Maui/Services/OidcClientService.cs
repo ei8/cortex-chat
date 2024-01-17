@@ -12,14 +12,12 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.Services
 {
     public class OidcClientService : IOidcClientService
     {
-        private readonly IUrlService urlService;
         private OidcClient oidcClient;
         private readonly ISettingsService settingsService;
         private readonly WebAuthenticatorBrowser webAuthenticatorBrowser;
 
-        public OidcClientService(IUrlService urlService, ISettingsService settingsService, WebAuthenticatorBrowser webAuthenticatorBrowser)
+        public OidcClientService(ISettingsService settingsService, WebAuthenticatorBrowser webAuthenticatorBrowser)
         {
-            this.urlService = urlService;
             this.settingsService = settingsService;
             this.webAuthenticatorBrowser = webAuthenticatorBrowser;
         }
@@ -30,9 +28,9 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.Services
             {
                 this.oidcClient = new OidcClient(new OidcClientOptions
                 {
-                    Authority = this.urlService.Authority,
-                    ClientId = $"ei8.Cortex.Chat-{this.urlService.AvatarName}",
-                    Scope = "openid profile avatarapi",
+                    Authority = this.settingsService.Authority,
+                    ClientId = this.settingsService.ClientId,
+                    Scope = this.settingsService.RequestedScopes,
                     // used in ei8.Cortex.Chat.Port.Adapter.UI.Maui.Platforms.Android.Auth.ChatWebAuthenticatorCallbackActivity
                     RedirectUri = "ei8cortexchat://",
                     PostLogoutRedirectUri = "ei8cortexchat://",

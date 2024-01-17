@@ -39,7 +39,6 @@ public static class MauiProgram
         builder.Services.AddSingleton<IMessageQueryClient, HttpMessageQueryClient>();
 
         builder.Services.AddSingleton(Connectivity.Current);
-        builder.Services.AddSingleton<IUrlService, UrlService>();
         builder.Services.AddSingleton<ITokenProviderService, TokenProviderService>();
         builder.Services.AddSingleton<ISettingsService, SettingsService>();
         builder.Services.AddSingleton<IMessageApplicationService, MessageApplicationService>();

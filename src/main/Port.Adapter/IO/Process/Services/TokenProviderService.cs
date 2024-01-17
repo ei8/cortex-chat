@@ -1,4 +1,4 @@
-﻿using ei8.Cortex.Chat.Domain.Model;
+﻿using ei8.Cortex.Chat.Application.Identity;
 using System;
 
 namespace ei8.Cortex.Chat.Port.Adapter.IO.Process.Services

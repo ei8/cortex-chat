@@ -31,6 +31,8 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
 
         public ObservableCollection<object> Messages { get; }
 
+        internal string AvatarUrl { get; set; }
+
         [RelayCommand]
         public async Task ReloadAsync()
         {
@@ -44,7 +46,7 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
                 {
                     this.Messages.Clear();
 
-                    var messages = await this.messageQueryService.GetMessagesAsync();
+                    var messages = await this.messageQueryService.GetMessagesAsync(this.AvatarUrl + "/");
                     messages.ToList().ForEach(m => this.Messages.Add(m));
 
                     this.IsReloading = false;
@@ -68,6 +70,7 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
                 else
                 {
                     await this.messageApplicationService.SendMessageAsync(
+                        this.AvatarUrl + "/",
                         this.Content,
                         null
                     );

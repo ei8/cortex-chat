@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ei8.Cortex.Chat.Application.Identity;
-using ei8.Cortex.Chat.Domain.Model;
 using ei8.Cortex.Chat.Port.Adapter.UI.Maui.Views;
 using IdentityModel.OidcClient;
 
@@ -9,13 +8,12 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels.Auth;
 
 public partial class LoginViewModel : ViewModelBase
 {
-    private IUrlService urlService;
     private IOidcClientService oidcClientService;
     private IConnectivity connectivity;
     private ITokenProviderService tokenProviderService;
-    public LoginViewModel(IUrlService urlService, IOidcClientService oidcClientService, IConnectivity connectivity, ITokenProviderService tokenProviderService)
+
+    public LoginViewModel(IOidcClientService oidcClientService, IConnectivity connectivity, ITokenProviderService tokenProviderService)
     {
-        this.urlService = urlService;
         this.oidcClientService = oidcClientService;
         this.connectivity = connectivity;
         this.tokenProviderService = tokenProviderService;
@@ -23,11 +21,6 @@ public partial class LoginViewModel : ViewModelBase
 
     [ObservableProperty]
     private string avatarUrl;
-
-    partial void OnAvatarUrlChanged(string value)
-    {
-        this.urlService.AvatarUrl = value;
-    }
 
     [RelayCommand]
     async Task LoginAsync()
@@ -55,7 +48,9 @@ public partial class LoginViewModel : ViewModelBase
             this.tokenProviderService.ExpiresAt = loginResult.AccessTokenExpiration;
             this.tokenProviderService.RefreshToken = loginResult.RefreshToken;
 
-            await Shell.Current.GoToAsync($"{nameof(MainPage)}",true);
+            await Shell.Current.GoToAsync($"{nameof(MainPage)}", true, new Dictionary<string, object>() { 
+                { Constants.GoToParameterKeys.AvatarUrl, this.AvatarUrl } 
+            });
         }
         catch (Exception ex)
         {

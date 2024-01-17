@@ -8,6 +8,6 @@ namespace ei8.Cortex.Chat.Application.Messages
 {
     public interface IMessageQueryService
     {
-        Task<IEnumerable<Message>> GetMessagesAsync(DateTimeOffset? maxTimestamp = null, int? pageSize = null, CancellationToken token = default);
+        Task<IEnumerable<Message>> GetMessagesAsync(string avatarUrl, DateTimeOffset? maxTimestamp = null, int? pageSize = null, CancellationToken token = default);
     }
 }

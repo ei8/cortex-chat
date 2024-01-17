@@ -2,8 +2,17 @@
 
 namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.Views;
 
+[QueryProperty(nameof(AvatarUrl), Constants.GoToParameterKeys.AvatarUrl)]
 public partial class MainPage : ContentPage
 {
+    public string AvatarUrl
+    {
+        set
+        {
+            ((MainViewModel)this.BindingContext).AvatarUrl = value;
+        }
+    }
+
     public MainPage(MainViewModel mainViewModel)
     {
         InitializeComponent();
@@ -13,6 +22,9 @@ public partial class MainPage : ContentPage
     }
     private async void MainPage_Loaded(object sender, EventArgs e)
     {
-        ((MainViewModel)this.BindingContext).IsReloading = true;
+        var mvm = (MainViewModel)this.BindingContext;
+        if (mvm.IsReloading)
+            mvm.IsReloading = false;
+        mvm.IsReloading = true;
     }
 }
