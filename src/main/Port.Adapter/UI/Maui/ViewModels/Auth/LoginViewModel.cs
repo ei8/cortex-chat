@@ -48,7 +48,7 @@ public partial class LoginViewModel : ViewModelBase
             this.tokenProviderService.ExpiresAt = loginResult.AccessTokenExpiration;
             this.tokenProviderService.RefreshToken = loginResult.RefreshToken;
 
-            await Shell.Current.GoToAsync($"{nameof(MainPage)}", true, new Dictionary<string, object>() { 
+            await Shell.Current.GoToAsync($"{nameof(AvatarsPage)}", true, new Dictionary<string, object>() { 
                 { Constants.GoToParameterKeys.AvatarUrl, this.AvatarUrl } 
             });
         }

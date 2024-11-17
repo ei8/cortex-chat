@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels"
-             x:Class="ei8.Cortex.Chat.Port.Adapter.UI.Maui.Views.MainPage"
-             x:DataType="viewModels:MainViewModel">
+             x:Class="ei8.Cortex.Chat.Port.Adapter.UI.Maui.Views.AvatarsPage"
+             x:DataType="viewModels:AvatarsViewModel">
     <Grid RowDefinitions="50,*,auto">
         <ImageButton HorizontalOptions="End"
                     Command="{Binding LogoutCommand}"
@@ -13,17 +13,10 @@
                     Margin="0,0,5,0"
                      />
         <RefreshView Grid.Row="1" IsRefreshing="{Binding IsReloading}" Command="{Binding ReloadCommand}">
-            <CollectionView ItemsSource="{Binding Messages}"
+            <CollectionView ItemsSource="{Binding Avatars}"
                             BackgroundColor="GhostWhite"
                             VerticalScrollBarVisibility="Always"
-                            ItemTemplate="{StaticResource MessagesTemplateSelector}"/>
+                            ItemTemplate="{StaticResource AvatarsTemplateSelector}"/>
         </RefreshView>
-        <Grid Grid.Row="2" ColumnDefinitions="*,auto" Padding="5,0,0,0">
-            <Editor                  
-                  MaxLength="500"
-                  Text="{Binding Content}"
-                  AutoSize="TextChanges" />
-            <ImageButton Grid.Column="1" Source="images/send.svg" HeightRequest="40" WidthRequest="40" Margin="5" VerticalOptions="End"  Command="{Binding SendCommand}"/>
-        </Grid>
     </Grid>
 </ContentPage>

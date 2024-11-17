@@ -8,13 +8,15 @@ public record Message()
 
     public string Content { get; set; }
 
+    public string Sender { get; set; }
+
+    public Guid SenderId { get; set; }
+
     public string Region { get; set; }
 
     public Guid? RegionId { get; set; }
 
-    public string Sender { get; set; }
-
-    public Guid SenderId { get; set; }
+    public string ExternalReferenceUrl { get; set; }
 
     public DateTimeOffset? CreationTimestamp { get; set; }
 

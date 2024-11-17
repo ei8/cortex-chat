@@ -1,13 +1,8 @@
 ﻿using ei8.Cortex.Chat.Application.Identity;
-using ei8.Cortex.Chat.Domain.Model;
 using ei8.Cortex.Chat.Nucleus.Client.In;
-using ei8.Cortex.Chat.Nucleus.Client.Out;
-using ei8.Cortex.Library.Common;
 using neurUL.Common.Domain.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,15 +22,18 @@ namespace ei8.Cortex.Chat.Application.Messages
             this.tokenProviderService = tokenProviderService;
         }
 
-        public async Task SendMessageAsync(string avatarUrl, string content, string regionId, CancellationToken token = default)
+        public async Task SendMessageAsync(string avatarUrl, string content, string regionId, IEnumerable<string> recipientAvatarIds, CancellationToken token = default)
         {
             await this.messageClient.CreateMessage(
                 avatarUrl,
+                this.tokenProviderService.AccessToken,
                 Guid.NewGuid().ToString(),
                 content,
                 regionId,
-                this.tokenProviderService.AccessToken
-                );
+                string.Empty,
+                recipientAvatarIds,                
+                token
+            );
         }
     }
 }

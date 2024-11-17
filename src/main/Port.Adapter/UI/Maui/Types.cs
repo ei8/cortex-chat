@@ -10,6 +10,7 @@ namespace ei8.Cortex.Chat
     {
         internal struct GoToParameterKeys {
             internal const string AvatarUrl = "avatarUrl";
+            internal const string Avatar = "avatar";
         }
     }
 }

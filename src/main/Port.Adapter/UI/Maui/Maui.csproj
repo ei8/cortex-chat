@@ -91,7 +91,18 @@
       <ProjectReference Include="..\..\IO\Process\Services\Services.csproj" />
     </ItemGroup>
     <ItemGroup>
+      <Compile Update="Views\AvatarsPage.xaml.cs">
+        <DependentUpon>AvatarsPage.xaml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\MessagesPage.xaml.cs">
+        <DependentUpon>MessagesPage.xaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
+    <ItemGroup>
       <MauiXaml Update="Views\Auth\LoginPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\AvatarsPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="Views\SettingsPage.xaml">

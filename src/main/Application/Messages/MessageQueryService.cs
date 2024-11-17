@@ -24,21 +24,26 @@ namespace ei8.Cortex.Chat.Application.Messages
             this.tokenProviderService = tokenProviderService;
         }
 
-        public async Task<IEnumerable<Message>> GetMessagesAsync(string avatarUrl, DateTimeOffset? maxTimestamp = null, int? pageSize = null, CancellationToken token = default)
+        public async Task<IEnumerable<Message>> GetMessagesAsync(string avatarUrl, DateTimeOffset? maxTimestamp, int? pageSize, IEnumerable<Guid> avatarIds = null, CancellationToken token = default)
         {
             var messageData = await this.messageQueryClient.GetMessagesAsync(
                         avatarUrl,
-                        this.tokenProviderService.AccessToken
+                        this.tokenProviderService.AccessToken,
+                        maxTimestamp,
+                        pageSize,
+                        avatarIds,
+                        token
                         );
 
             return messageData.Select(md => new Message()
             {
                 Id = md.Id,
-                Content = md.Content,
-                Region = md.Region,
+                Content = md.ContentString,
+                Region = md.RegionTag,
                 RegionId = md.RegionId,
-                Sender = md.Sender,
+                Sender = md.SenderTag,
                 SenderId = md.SenderId,
+                ExternalReferenceUrl = md.ExternalReferenceUrl,
                 CreationTimestamp = md.CreationTimestamp,
                 UnifiedLastModificationTimestamp = md.UnifiedLastModificationTimestamp,
                 IsCurrentUserCreationAuthor = md.IsCurrentUserCreationAuthor

@@ -2,12 +2,13 @@
 using CommunityToolkit.Mvvm.Input;
 using ei8.Cortex.Chat.Application.Identity;
 using ei8.Cortex.Chat.Application.Messages;
+using ei8.Cortex.Chat.Domain.Model;
 using IdentityModel.OidcClient;
 using System.Collections.ObjectModel;
 
 namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
 {
-    public partial class MainViewModel : ViewModelBase
+    public partial class MessagesViewModel : ViewModelBase
     {
         private readonly IMessageApplicationService messageApplicationService;
         private readonly IMessageQueryService messageQueryService;
@@ -20,7 +21,7 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
         [ObservableProperty]
         private bool isReloading;
 
-        public MainViewModel(IMessageApplicationService messageApplicationService, IMessageQueryService messageQueryService, IOidcClientService oidcClientService, IConnectivity connectivity)
+        public MessagesViewModel(IMessageApplicationService messageApplicationService, IMessageQueryService messageQueryService, IOidcClientService oidcClientService, IConnectivity connectivity)
         {
             this.oidcClientService = oidcClientService;
             this.connectivity = connectivity;
@@ -30,6 +31,8 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
         }
 
         public ObservableCollection<object> Messages { get; }
+
+        internal Avatar Avatar { get; set; }
 
         internal string AvatarUrl { get; set; }
 
@@ -46,7 +49,12 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
                 {
                     this.Messages.Clear();
 
-                    var messages = await this.messageQueryService.GetMessagesAsync(this.AvatarUrl + "/");
+                    var messages = await this.messageQueryService.GetMessagesAsync(
+                        this.AvatarUrl + "/", 
+                        null, 
+                        null,
+                        new Guid[] { this.Avatar.Id }
+                    );
                     messages.ToList().ForEach(m => this.Messages.Add(m));
 
                     this.IsReloading = false;
@@ -70,10 +78,11 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
                 else
                 {
                     await this.messageApplicationService.SendMessageAsync(
-                        this.AvatarUrl + "/",
-                        this.Content,
-                        null
-                    );
+                       this.AvatarUrl + "/",
+                       this.Content,
+                       null,
+                       null
+                   );
 
                     this.Content = string.Empty;
                 }
