@@ -58,8 +58,8 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
                 {
                     this.Avatars.Clear();
 
-                    var messages = await this.avatarQueryService.GetAvatarsAsync(this.AvatarUrl + "/");
-                    messages.ToList().ForEach(m => this.Avatars.Add(m));
+                    var avs = await this.avatarQueryService.GetAvatarsAsync(this.AvatarUrl + "/");
+                    avs.ToList().ForEach(av => this.Avatars.Add(av.First()));
 
                     this.IsReloading = false;
                 }

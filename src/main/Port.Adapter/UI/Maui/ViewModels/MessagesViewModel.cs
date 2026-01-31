@@ -55,7 +55,7 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
                         null,
                         new Guid[] { this.Avatar.Id }
                     );
-                    messages.ToList().ForEach(m => this.Messages.Add(m));
+                    messages.ToList().ForEach(this.Messages.Add);
 
                     this.IsReloading = false;
                 }

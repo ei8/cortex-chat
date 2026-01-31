@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:mirrors="clr-namespace:ei8.Cortex.Coding.Mirrors;assembly=ei8.Cortex.Coding"
     xmlns:models="clr-namespace:ei8.Cortex.Chat.Domain.Model;assembly=ei8.Cortex.Chat.Domain.Model" 
     xmlns:views="clr-namespace:ei8.Cortex.Chat.Port.Adapter.UI.Maui.Views"
     xmlns:templateselectors="clr-namespace:ei8.Cortex.Chat.Port.Adapter.UI.Maui.TemplateSelectors">
@@ -13,9 +14,8 @@
         x:TypeArguments="x:String"
         TrueObject="Stop Location Updates"
         FalseObject="Start Location Updates"/>
-
-    <DataTemplate x:Key="MessageTemplate"
-                  x:DataType="models:Message">
+    
+    <DataTemplate x:Key="MessageTemplate" x:DataType="{x:Type mirrors:IMirrorImageSeries(models:Message)}">
         <ContentView>
             <Grid>
                 <Grid.RowDefinitions>
@@ -43,8 +43,8 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Text="{Binding Sender}" FontAttributes="Bold"/>
-                        <Label Grid.Row="1" Text="{Binding Content}" VerticalOptions="End" MaximumWidthRequest="250" />
+                        <Label Text="{Binding First.SendersNames}" FontAttributes="Bold"/>
+                        <Label Grid.Row="1" Text="{Binding First.Content.Value}" VerticalOptions="End" MaximumWidthRequest="250" />
                     </Grid>
                 </Border>
             </Grid>
@@ -72,7 +72,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="CurrentUserMessageTemplate"
-                  x:DataType="models:Message">
+                  x:DataType="{x:Type mirrors:IMirrorImageSeries(models:Message)}">
         <ContentView>
             <Grid HorizontalOptions="End">
                 <Grid.RowDefinitions>
@@ -85,7 +85,7 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="14,0,14,14"/>
                     </Border.StrokeShape>
-                    <Label Text="{Binding Content}" VerticalOptions="End" MaximumWidthRequest="250" />
+                    <Label Text="{Binding First.Content.Value}" VerticalOptions="End" MaximumWidthRequest="250" />
                 </Border>
             </Grid>
         </ContentView>

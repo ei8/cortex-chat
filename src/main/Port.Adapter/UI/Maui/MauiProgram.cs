@@ -29,13 +29,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-
-        builder.Services.AddSingleton<IRequestProvider, RequestProvider>(sp =>
-        {
-            var rp = new RequestProvider();
-            rp.SetHttpClientHandler(new HttpClientHandler());
-            return rp;
-        });
+        builder.Services.AddHttpClient();
         builder.Services.AddSingleton<IMessageClient, HttpMessageClient>();
         builder.Services.AddSingleton<IMessageQueryClient, HttpMessageQueryClient>();
         builder.Services.AddSingleton<IAvatarQueryClient, HttpAvatarQueryClient>();

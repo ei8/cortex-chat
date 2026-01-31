@@ -1,6 +1,7 @@
 ﻿using ei8.Cortex.Chat.Application.Identity;
 using ei8.Cortex.Chat.Domain.Model;
 using ei8.Cortex.Chat.Nucleus.Client.Out;
+using ei8.Cortex.Coding.Mirrors;
 using neurUL.Common.Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace ei8.Cortex.Chat.Application
             this.tokenProviderService = tokenProviderService;
         }
 
-        public async Task<IEnumerable<Avatar>> GetAvatarsAsync(string avatarUrl, CancellationToken token = default)
+        public async Task<IEnumerable<IMirrorImageSeries<Avatar>>> GetAvatarsAsync(string avatarUrl, CancellationToken token = default)
         {
             var avatarData = await this.avatarQueryClient.GetAvatarsAsync(
                 avatarUrl,
@@ -32,16 +33,10 @@ namespace ei8.Cortex.Chat.Application
                 token: token
             );
 
-            return avatarData.Select(ad => new Avatar()
-            {
-                Id = ad.Id,
-                Name = ad.Name,
-                Url = ad.Url,
-                ExternalReferenceUrl = ad.ExternalReferenceUrl
-            }); ;
+            return avatarData.Select(ad => ad.ToDomain());
         }
 
-        public Task<IEnumerable<Avatar>> GetAvatarsByIdsAsync(string avatarUrl, IEnumerable<Guid> ids, CancellationToken token = default)
+        public Task<IEnumerable<IMirrorImageSeries<Avatar>>> GetAvatarsByIdsAsync(string avatarUrl, IEnumerable<Guid> ids, CancellationToken token = default)
         {
             throw new NotImplementedException();
         }
