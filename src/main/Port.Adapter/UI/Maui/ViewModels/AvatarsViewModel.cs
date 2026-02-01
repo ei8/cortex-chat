@@ -9,11 +9,14 @@ using System.Windows.Input;
 
 namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
 {
+    /// <summary>
+    /// Represents a view model for Avatars.
+    /// </summary>
     public partial class AvatarsViewModel : ViewModelBase
     {
         private readonly IAvatarQueryService avatarQueryService;
-        protected readonly IOidcClientService oidcClientService;
-        protected readonly IConnectivity connectivity;
+        private readonly IOidcClientService oidcClientService;
+        private readonly IConnectivity connectivity;
 
         [ObservableProperty]
         private string content;
@@ -21,12 +24,22 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
         [ObservableProperty]
         private bool isReloading;
 
-        public AvatarsViewModel(IAvatarQueryService avatarQueryService, IOidcClientService oidcClientService, IConnectivity connectivity)
+        /// <summary>
+        /// Constructs an AvatarsViewModel.
+        /// </summary>
+        /// <param name="avatarQueryService">The IAvatarQueryService to retrieve Avatars.</param>
+        /// <param name="oidcClientService">The IOidcClientService to be used to retrieve OIDC clients.</param>
+        /// <param name="connectivity">The Connectivity interface to monitor network changes.</param>
+        public AvatarsViewModel(
+            IAvatarQueryService avatarQueryService, 
+            IOidcClientService oidcClientService, 
+            IConnectivity connectivity
+        )
         {
             this.oidcClientService = oidcClientService;
             this.connectivity = connectivity;
             this.avatarQueryService = avatarQueryService;
-            this.Avatars = new();
+            this.Avatars = [];
 
             this.SelectAvatar = new Command(async (a) => 
                 await Shell.Current.GoToAsync(
@@ -39,12 +52,22 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
                 ));
         }
 
+        /// <summary>
+        /// Gets or sets the SelectAvatar command.
+        /// </summary>
         public ICommand SelectAvatar { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the Avatars list.
+        /// </summary>
         public ObservableCollection<object> Avatars { get; }
 
         internal string AvatarUrl { get; set; }
 
+        /// <summary>
+        /// Reloads the Avatars list.
+        /// </summary>
+        /// <returns></returns>
         [RelayCommand]
         public async Task ReloadAsync()
         {
@@ -69,7 +92,11 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
                 await Shell.Current.DisplayAlert("Error", ex.ToString(), "Ok");
             }
         }
-
+        
+        /// <summary>
+        /// Logs User out.
+        /// </summary>
+        /// <returns></returns>
         [RelayCommand]
         async Task LogoutAsync()
         {
@@ -86,4 +113,3 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
         }
     }
 }
-

@@ -8,12 +8,27 @@ using System.Collections.ObjectModel;
 
 namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
 {
-    public partial class MessagesViewModel : ViewModelBase
+    /// <summary>
+    /// Represents a view model for Messages.
+    /// </summary>
+    /// <remarks>
+    /// Constructs a MessageViewModel.
+    /// </remarks>
+    /// <param name="messageApplicationService">The IMessageApplicationService to modify Messages.</param>
+    /// <param name="messageQueryService">The IMessageQueryService to retrieve Messages.</param>
+    /// <param name="oidcClientService">The IOidcClientService to be used to retrieve OIDC clients.</param>
+    /// <param name="connectivity">The Connectivity interface to monitor network changes.</param>
+    public partial class MessagesViewModel(
+        IMessageApplicationService messageApplicationService, 
+        IMessageQueryService messageQueryService, 
+        IOidcClientService oidcClientService, 
+        IConnectivity connectivity
+    ) : ViewModelBase
     {
-        private readonly IMessageApplicationService messageApplicationService;
-        private readonly IMessageQueryService messageQueryService;
-        protected readonly IOidcClientService oidcClientService;
-        protected IConnectivity connectivity;
+        private readonly IMessageApplicationService messageApplicationService = messageApplicationService;
+        private readonly IMessageQueryService messageQueryService = messageQueryService;
+        private readonly IOidcClientService oidcClientService = oidcClientService;
+        private readonly IConnectivity connectivity = connectivity;
 
         [ObservableProperty]
         private string content;
@@ -21,21 +36,19 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
         [ObservableProperty]
         private bool isReloading;
 
-        public MessagesViewModel(IMessageApplicationService messageApplicationService, IMessageQueryService messageQueryService, IOidcClientService oidcClientService, IConnectivity connectivity)
-        {
-            this.oidcClientService = oidcClientService;
-            this.connectivity = connectivity;
-            this.messageApplicationService = messageApplicationService;
-            this.messageQueryService = messageQueryService;
-            this.Messages = new();
-        }
-
-        public ObservableCollection<object> Messages { get; }
+        /// <summary>
+        /// Gets or sets the Messages list.
+        /// </summary>
+        public ObservableCollection<object> Messages { get; } = new();
 
         internal Avatar Avatar { get; set; }
 
         internal string AvatarUrl { get; set; }
 
+        /// <summary>
+        /// Reloads the Messages list.
+        /// </summary>
+        /// <returns></returns>
         [RelayCommand]
         public async Task ReloadAsync()
         {
@@ -66,6 +79,10 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
             }
         }
 
+        /// <summary>
+        /// Sends a Message.
+        /// </summary>
+        /// <returns></returns>
         [RelayCommand]
         public async Task SendAsync()
         {
@@ -93,8 +110,12 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.ViewModels
             }
         }
 
+        /// <summary>
+        /// Logs User out.
+        /// </summary>
+        /// <returns></returns>
         [RelayCommand]
-        async Task LogoutAsync()
+        public async Task LogoutAsync()
         {
             try
             {
