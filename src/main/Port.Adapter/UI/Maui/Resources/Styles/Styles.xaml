@@ -52,7 +52,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="SameSenderMessageTemplate"
-                  x:DataType="models:Message">
+                  x:DataType="{x:Type mirrors:IMirrorImageSeries(models:Message)}">
         <ContentView>
             <Grid>
                 <Grid.RowDefinitions>
@@ -65,7 +65,7 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="0,14,14,14"/>
                     </Border.StrokeShape>
-                    <Label Text="{Binding Content}" VerticalOptions="End" MaximumWidthRequest="250" />
+                    <Label Text="{Binding First.Content.Value}" VerticalOptions="End" MaximumWidthRequest="250" />
                 </Border>
             </Grid>
         </ContentView>

@@ -41,7 +41,9 @@ namespace ei8.Cortex.Chat.Port.Adapter.UI.Maui.TemplateSelectors
                 if (currIndex > 0)
                 {
                     var precedingItem = itemsList[currIndex - 1];
-                    if (precedingItem.First().Senders.IntersectBy(mirrorMessage.First().Senders.Select(ms => ms.Id), c => c.Id).Any())
+                    var currentSendersAvatarIds = mirrorMessage.First().Senders.Select(ms => ms.Avatar.Id.ToString());
+                    var precedingSendersAvatarIds = precedingItem.First().Senders.Select(ps => ps.Avatar.Id.ToString());
+                    if (precedingSendersAvatarIds.Intersect(currentSendersAvatarIds).Any())
                         sameMessageSender = true;
                 }
                 result = mirrorMessage.First().IsCurrentUserCreationAuthor ?
